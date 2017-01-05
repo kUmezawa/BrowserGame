@@ -12,5 +12,35 @@
 
 Browser Game of JS
 
+
+<p id="toolTitle"><a href="#toolContent">ファイル</a></p>
+<div id="toolContent" style="display: none">
+<ul>
+<li>新規</li>
+<li>上書き保存</li>
+</ul>
+</div>
+
+<script type="text/javascript">
+//$('#toolContent').show();
+$('#toolTitle').bind('click', function() {
+	//$('#toolContent').show();
+	$('#toolContent').slideDown();
+});
+</script>
+
+
+<p class="btn"><input id="btnClose" type="button" value="閉じる"></p>
+<script type="text/javascript">
+jQuery('#btnClose').bind('click', function(){
+	if(confirm('閉じてよろしいですか?')){
+		window.close();
+	}else{
+		alert('閉じるのを中止しました');
+	}
+})
+</script>
+
+
 </body>
 </html>

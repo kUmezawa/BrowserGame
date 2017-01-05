@@ -5,13 +5,12 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script type="text/javascript" src="../js/SampleScript01.js"></script>
 
 <title>Browser Game</title>
 </head>
 <body>
-
 Browser Game of JS
-
 
 <p id="toolTitle"><a href="#toolContent">ファイル</a></p>
 <div id="toolContent" style="display: none">
@@ -21,25 +20,7 @@ Browser Game of JS
 </ul>
 </div>
 
-<script type="text/javascript">
-//$('#toolContent').show();
-$('#toolTitle').bind('click', function() {
-	//$('#toolContent').show();
-	$('#toolContent').slideDown();
-});
-</script>
-
-
 <p class="btn"><input id="btnClose" type="button" value="閉じる"></p>
-<script type="text/javascript">
-jQuery('#btnClose').bind('click', function(){
-	if(confirm('閉じてよろしいですか?')){
-		window.close();
-	}else{
-		alert('閉じるのを中止しました');
-	}
-})
-</script>
 
 
 </body>

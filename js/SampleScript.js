@@ -1,13 +1,14 @@
 /**
  * 
  */
+
 //$('#toolContent').show();
 $('#toolTitle').bind('click', function() {
 	//$('#toolContent').show();
 	$('#toolContent').slideDown();
 });
 
-jQuery('#btnClose').bind('click', function(){
+$('#btnClose').bind('click', function(){
 	if(confirm('閉じてよろしいですか?')){
 		window.close();
 	}else{
@@ -19,4 +20,3 @@ $('#btnTest').bind('click', function(){
 	console.log("console test");
 	alert('jQuery Test');
 });
-

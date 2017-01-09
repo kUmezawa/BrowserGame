@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+
+<html lang="ja" xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <title>茶こし</title>
+  <script>
+    var data = {
+      objectList: []
+    };
+
+    var config = {
+      width: 640,
+      height: 600,
+      backgroundColor: "#002"
+    }
+
+    //ユーティリティクラス START************************************************************
+    //円を描画する
+    var drawCircle = function (color, x, y, r) {
+      data.ctx.fillStyle = color;
+      data.ctx.beginPath();
+      data.ctx.arc(x | 0, y | 0, r | 0, 0, 2 * Math.PI, true);
+      data.ctx.fill();
+    };
+
+    //長方形を描画する
+    var drawRect = function (color, x, y, w, h) {
+      data.ctx.fillStyle = color;
+      data.ctx.fillRect(x | 0, y | 0, w | 0, h | 0);
+    };
+
+    //線を描画する    
+    var drawLine = function (color, x1, y1, x2, y2, w) {
+      data.ctx.strokeStyle = color;
+      data.ctx.lineWidth = w;
+      data.ctx.beginPath();
+      data.ctx.moveTo(x1, y1)
+      data.ctx.lineTo(x2, y2);
+      data.ctx.stroke();
+    };
+
+    //背景を描画する
+    var drawBackGround = function () {
+      drawRect(config.backgroundColor,
+        0, 0, config.width, config.height);
+    }
+
+    //オブジェクトを追加する
+    var addObject = function (obj) {
+      data.objectList.push(obj);
+    };
+
+    //ユーティリティクラス END************************************************************
+
+
+    //onload呼び出し
+    var onLoad = function () {
+      var canvas = document.createElement("canvas");
+      canvas.width = config.width;
+      canvas.height = config.height;
+      document.body.appendChild(canvas);
+      data.ctx = canvas.getContext("2d");
+
+      drawBackGround();
+
+      //マウス操作
+      canvas.onmousedown = function (e) {
+        ontouchDown(e.clientX, e.clientY);
+      }
+
+
+
+      //addObject(new Circle(10, 20, 4));
+      //for (var i = 0 ; i < 10; i++) {
+      //  addObject(createCircleRandom());
+      //}
+
+      //ブロック生成
+      //addObject(new Block(100, 200, 200, 20));
+
+      //線分生成
+      addObject(new Line(250, 350, 550, 270));
+
+      //addObject(new Dot(400, 200, 4, false));
+
+      (function mainLoop() {
+        setTimeout(mainLoop, 1000 / 20);
+        moveAll();
+        drawAll();
+      })();
+
+
+    };
+
+    //クリック/タップされた際に呼び出されるイベント
+    var ontouchDown = function (x, y) {
+      addObject(new Dot(x, y, 4, false));
+      addObject(new Dot(x + Math.random() * 51 - 25, y + Math.random() * 51 - 25, 4, false));
+      addObject(new Dot(x + Math.random() * 51 - 25, y + Math.random() * 51 - 25, 4, false));
+      addObject(new Dot(x + Math.random() * 51 - 25, y + Math.random() * 51 - 25, 4, false));
+
+    }
+
+
+
+
+
+    //すべてのObjectにmoveを行わせる
+    var moveAll = function () {
+      for (var i = 0; i < data.objectList.length; i++) {
+        data.objectList[i].move();
+      }
+    }
+
+    //すべてのObjectにdrawを行わせる
+    var drawAll = function () {
+      drawBackGround();
+      for (var i = 0; i < data.objectList.length; i++) {
+        data.objectList[i].draw();
+      }
+    }
+
+    var createCircleRandom = function () {
+      return new Circle(Math.random() * config.width | 0, Math.random() * config.height | 0, 1);
+    }
+
+
+    //円のクラス
+    var Circle = function (x1, y1, size1) {
+      var x = x1;
+      var y = y1;
+      var vy = 0;
+      var vx = (Math.random() * 5 - 2) | 0;
+      var ay = 1;
+      var size = size1;
+
+      this.draw = function () {
+        drawCircle("white", x, y, size);
+      };
+
+      this.move = function () {
+        x++;
+        vy += ay;
+        y += vy;
+
+      };
+    }
+
+    //点のクラス
+    var Dot = function (xin, yin, sizein, brokenin) {
+      var x = xin;
+      var y = yin;
+      var vy = 6;
+      var vx = (Math.random() * 5 - 2) | 0;
+      var ay = 1;
+      var color = "white";
+      var size = sizein;
+      var broken = brokenin;
+
+      var L1, L2;
+
+      this.draw = function () {
+        drawCircle(color, x, y, size);
+
+        this.judge();
+      };
+
+      this.move = function () {
+
+        y += vy;
+        x += vx;
+
+      };
+
+      //250, 350, 550, 270
+      this.judge = function () {
+        var x0 = 250, y0 = 350, x1 = 550, y1 = 270, x2 = x, y2 = y;
+        var L1 = Math.sqrt(Math.pow(x1 - x0, 2) + Math.pow(y1 - y0, 2));
+        var L2 = Math.sqrt(Math.pow(x2 - x0, 2) + Math.pow(y2 - y0, 2));
+
+
+        if (Math.abs(((x1 - x0) * (x2 - x0) + (y1 - y0) * (y2 - y0)) - L1 * L2) <= 50
+          && L1 - L2 >= 0
+          && !broken) {
+
+          //color = "red";
+          size = 2;
+          for (var i = 0; i < 4; i++) {
+            addObject(new Dot(x + Math.random() * 31 - 15, y + Math.random() * 31 - 15, 2, true));
+          }
+
+          broken = true;
+
+        }
+
+      };
+
+    };
+
+
+
+
+
+    //長方形のブロッククラス
+    var Block = function (x1, y1, length1, width1) {
+      var x = x1;
+      var y = y1;
+      var width = width1;
+      var length = length1;
+      var angle = 90;
+      var vangle = 0;
+      var aangle = 0.4;
+
+
+      this.draw = function () {
+        drawLine("blue", x, y, x + length * Math.cos(angle * Math.PI / 180), y + length * Math.sin(-angle * Math.PI / 180), width);
+        drawCircle("red", x, y, 3);
+      };
+
+      this.move = function () {
+        if (0 < angle && angle < 180) {
+          angle -= vangle;
+          vangle += aangle;
+          if (angle < 0) angle = 0;
+          if (angle > 180) angle = 180;
+        }
+
+      };
+    }
+
+
+    //長方形のブロッククラス
+    var Line = function (x1, y1, x2, y2) {
+
+      this.draw = function () {
+        drawLine("yellow", x1, y1, x2, y2, 1);
+      };
+
+      this.move = function () {
+
+      };
+    }
+  </script>
+</head>
+<body onload="onLoad();">
+</body>
+</html>

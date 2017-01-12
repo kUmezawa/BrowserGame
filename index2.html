@@ -9,41 +9,17 @@
  -->
  
 <script src=https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js></script>
+<!--<script src=https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js></script>-->
 <link rel=stylesheet href=https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/cupertino/jquery-ui.css>
-<script src=https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js></script>
 
-<!-- 
+
 <script type="text/javascript" src="js/SampleScript.js"></script>
- -->
+
  
 <title>Browser Game</title>
 </head>
 <body>
 Browser Game of JS
-
-<!-- ********************************************** -->
-<script type="text/javascript">
-$('#toolTitle').bind('click', function() {
-	//$('#toolContent').show();
-	$('#toolContent').slideDown();
-});
-
-$('#btnClose').bind('click', function(){
-	if(confirm('閉じてよろしいですか?')){
-		window.close();
-	}else{
-		alert('閉じるのを中止しました');
-	}
-});
-
-$('#btnTest').bind('click', function(){
-	console.log("console test");
-	alert('jQuery Test');
-});
-</script>
-
-<!-- ********************************************** -->
-
 <p id="toolTitle"><a href="#toolContent">ファイル</a></p>
 <div id="toolContent" style="display: none">
 <ul>
